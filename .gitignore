@@ -3,4 +3,3 @@
 */_freeze/
 **/*.quarto_ipynb
 .DS_Store
-ci-cd-quarto.yml
