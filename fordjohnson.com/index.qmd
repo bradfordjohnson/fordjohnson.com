@@ -1,0 +1,50 @@
+---
+title: "Ford Johnson"
+subtitle: "Data Analyst & Analytics Engineer"
+about:
+  template: trestles
+  image: assets/images/mountians.jpg
+  # links:
+  #   - text: View Projects
+  #     href: projects/index.qmd
+    # - icon: github
+    #   text: Github
+    #   href: https://github.com/bradfordjohnson
+---
+
+I build scalable data pipelines, design analytics frameworks, and turn complex datasets into clear visual stories. My focus is on delivering reliable, end-to-end solutions from ingest to decision.
+
+::: {.hero-text}
+::: {.grid .gap-3 .pb-3 .pt-4}
+::: {.g-col-12 .g-col-sm-4}
+[View Projects](/projects/index.qmd){.btn-action-primary .btn-action .btn .btn-lg .w-100 role="button"}
+:::
+::: {.g-col-12 .g-col-sm-4 .mb-2}
+<!-- [Get in Touch](/docs/guide/){#btn-guide .btn-action .btn-secondary .btn .btn-lg .w-100 role="button"} -->
+::: 
+::: 
+:::
+
+```{=html}
+<style>
+.quarto-title {
+    text-align: left;
+}
+
+.btn-action-primary {
+  color: white;
+  background-color: #447099;
+}
+
+.btn-action-primary:hover {
+  background-color: #305775;
+  color: white;
+}
+
+.btn-action {
+  min-width: 165px;
+  border-radius: 30px;
+  border: none;
+}
+</style>
+```

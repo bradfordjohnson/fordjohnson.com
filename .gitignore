@@ -1,0 +1,6 @@
+*/.quarto/
+*/_site/
+*/_freeze/
+**/*.quarto_ipynb
+.DS_Store
+ci-cd-quarto.yml

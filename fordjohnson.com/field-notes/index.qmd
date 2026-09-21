@@ -1,0 +1,26 @@
+---
+pagetitle: Field Notes
+description: |
+  Working notes on analytics methodology, custom data graphics, and messy datasets.
+listing:
+  id: field-notes
+  contents: entries
+  sort: "date desc"
+  categories: false
+  filter-ui: false
+  sort-ui: false
+  type: table
+  date-format: medium
+  fields: [date, title, description]
+  table-hover: true
+  field-display-names:
+    title: "Topic"
+page-layout: full
+---
+
+## {{< meta pagetitle >}}
+
+{{< meta description >}}
+
+::: {#field-notes .article}
+:::

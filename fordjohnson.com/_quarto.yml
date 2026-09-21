@@ -1,0 +1,55 @@
+project:
+  type: website
+  output-dir: _site
+  preview:
+    port: 4000
+    timeout: 1200
+
+website:
+  title: "Ford Johnson"
+  # description:
+  site-url: "https://fordjohnson.com"
+  llms-txt: true
+  search: false
+
+  favicon: "assets/images/favicon.png"
+  image: "assets/images/logo.png"
+
+  cookie-consent:
+    type: implied
+    style: simple
+
+  google-analytics:
+    tracking-id: "GTM-PF2MWQN4"
+
+  navbar:
+    background: secondary
+    pinned: true
+    logo: "assets/images/logo.png"
+    left:
+      - href: index.qmd
+        text: About
+      - href: projects/index.qmd
+        text: Projects
+      - href: field-notes/index.qmd
+        text: Field Notes
+    right:
+      - icon: github
+        href: "https://github.com/bradfordjohnson"
+      - icon: linkedin
+        href: "https://linkedin.com/in/bradford-ford-johnson"
+  
+  page-footer:
+    center:
+      - icon: github
+        href: "https://github.com/bradfordjohnson"
+      - icon: linkedin
+        href: "https://linkedin.com/in/bradford-ford-johnson"
+
+format:
+  html:
+    theme: [cosmo, theme.scss]
+    page-layout: full
+    toc: false
+    smooth-scroll: true
+    anchor-sections: false

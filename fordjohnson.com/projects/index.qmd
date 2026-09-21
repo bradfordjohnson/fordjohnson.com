@@ -1,0 +1,38 @@
+---
+pagetitle: Projects
+description: |
+  A curated selection of my visualizations, projects, and analytical solutions.
+listing:
+  - id: gallery
+    template: gallery.ejs
+    contents: gallery.yml
+page-layout: full
+---
+
+::: {#gallery .column-page}
+:::
+
+```{=html}
+<style>
+
+/* we need to hide this element */
+/* <header id="title-block-header" class="quarto-title-block"></header> */
+
+header#title-block-header {
+  display: none;
+}
+
+#quarto-content main { 
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.card-img-top {
+  width: 100%;
+  max-height: 270px;
+  object-fit: contain;
+  object-position: top;
+}
+
+</style>
+```
