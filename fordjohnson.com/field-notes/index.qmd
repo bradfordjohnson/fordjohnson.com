@@ -1,12 +1,12 @@
 ---
 pagetitle: Field Notes
 description: |
-  Working notes on analytics methodology, custom data graphics, and messy datasets.
+  Short technical notes, code snippets, and quick analytical explorations.
 listing:
   id: field-notes
   contents: entries
   sort: "date desc"
-  categories: false
+  categories: true
   filter-ui: false
   sort-ui: false
   type: table

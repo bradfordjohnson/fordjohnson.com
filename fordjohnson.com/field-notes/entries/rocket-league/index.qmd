@@ -1,12 +1,14 @@
 ---
-title: Matchmaking in Rocket League
+title: Bayesian State Estimation in Competitive Matchmaking
 description: |
   Deconstructing Rocket League's MMR and ranking system.
 title-block-banner: false
 # image:
 date: '2024-09-21'
-categories: [skill rankings]
-
+categories: [R, Bayesian Statistics, Game Analytics, State Estimation, R6]
+abstract: Evaluating Skill Rating volatility, uncertainty decay, and Bayesian state updates in Rocket League using R.
+abstract-title: Summary
+toc: true
 html-math-method:
   method: katex
 
@@ -16,67 +18,58 @@ execute:
   freeze: true
 ---
 
-As a longtime Rocket League player, I’ve always been fascinated by the ranking system behind the game. Using tools like BakkesMod and tracking websites, I’ve been able to monitor my MMR in real time, sparking my interest in how the system works. Rocket League, like many games, uses skill-based matchmaking to create balanced matches, driven by calculations that determine player ratings and matchups. My goal is to explore the data behind this system and understand how it shapes the competitive experience.
+Understanding how competitive rating engines balance mean skill estimation ($\mu$) and variance ($\sigma$) provides valuable intuition for real-time ranking algorithms, dynamic credit scoring, and user behavior state tracking. In observational settings where true user ability is unobserved, iterative state updates allow systems to rapidly converge on true skill while dynamically scaling volatility based on system certainty.
 
+### Matchmaking Rating (MMR) and Skill Rating
 
-## Matchmaking Rating (MMR) and Skill Rating
+Most Rocket League players interested in their competitive ranking are familiar with the skill rating displayed on third-party websites or in BakkesMod. This skill rating is derived from the matchmaking rank (MMR), which remains hidden and is not easily visible to players.
 
-Most Rocket League players interested in their [competitive ranking](https://www.epicgames.com/help/en-US/c-Category_RocketLeague/c-RocketLeague_Gameplay/what-are-rocket-league-competitive-ranks-a000084481) are familiar with the skill rating displayed on third-party websites or in BakkesMod. This **skill rating** is derived from the matchmaking rank (MMR), which remains hidden and is not easily visible to players.
+$$\text{mmr} \approx \frac{\text{skill rating} - 100}{20}$$
 
+$$\text{skill rating} \approx (20 \times \text{mmr}) + 100$$
 
-$$
-\text{mmr} \approx \frac{\left(\text{skill rating} - 100\right)}{20}
-$$
+The MMR is the underlying numerical value that determines a player’s true skill level, influencing matchmaking and overall competitive performance in Rocket League. Both casual and competitive matchmaking in Rocket League utilize skill-based matchmaking, meaning that wins and losses directly affect your skill value, leading to increases or decreases in your ranking. To balance the time spent finding eligible opponents within selected regions and prevent long wait times, the game expands the allowable skill range when necessary. Different playlists and gamemodes will have their own MMR value.
 
-$$
-\text{skill rating} \approx \left(20\text{mmr}\right) - 100
-$$
+### Determining a Player’s Skill
 
-The MMR is the underlying numerical value that determines a player's true skill level, influencing matchmaking and overall competitive performance in Rocket League. Both casual and competitive matchmaking in Rocket League utilize skill-based matchmaking, meaning that wins and losses directly affect your skill value, leading to increases or decreases in your ranking. To balance the time spent finding eligible opponents within selected regions and prevent long wait times, the game expands the allowable skill range when necessary. Different playlists and gamemodes will have their own MMR value.
+Rocket League uses the `SkillMu` and `SkillSigma` to calculate a player’s MMR. This is similar to other Bayesian approaches but not the same.[^1]
 
-### Determining a Player's Skill
+[^1]: [Reddit - How the Ranking System and Matchmaking works…](https://www.reddit.com/r/RocketLeague/comments/1814iyn/how_the_ranking_system_and_matchmaking_works/)
 
-Rocket League uses the `SkillMu` and `SkillSigma` to calculate a player's MMR. This is similar to other Bayesian approaches but not the same.^[[Reddit](https://www.reddit.com/r/RocketLeague/comments/3uv3xu/how_the_ranking_system_and_matchmaking_works_the/) - *How the Ranking System and Matchmaking works...*]
+* **SkillMu (Mu):** The perceived skill level of a player, which increases with wins and decreases with losses. It starts at a value of 25 in unplayed playlists.
+* **SkillSigma (Sigma):** The “uncertainty” value that decreases with each match, indicating the system’s confidence in a player’s skill. It starts at 8.333 in unplayed playlists and decreases as matches are played to a minimum of 2.5. A lower Sigma signifies greater certainty a player is at the correct skill level.
 
-SkillMu (Mu)
-: The perceived skill level of a player, which increases with wins and decreases with losses. It starts at a value of 25 in unplayed playlists.
-
-SkillSigma (Sigma)
-: The "uncertainty" value that decreases with each match, indicating the system's confidence in a player's skill. It starts at 8.333 in unplayed playlists and decreases as matches are played to a minimum of 2.5. A lower Sigma signifies greater certainty a player is at the correct skill level.
-
-New players start with a SkillMu = 25, skill rating = 600 and SkillSigma = 8.333.
+New players start with a $\text{SkillMu} = 25$, $\text{skill rating} = 600$ and $\text{SkillSigma} = 8.333$.
 
 ### Matchmaking and Teams
 
+In competitive Rocket League, players can choose between the following gamemodes:[^2] 1v1, 2v2, 3v3.
 
-In competitive Rocket League, players can choose between the following gamemodes:^[*Competitive and casual matchmaking use different weighting systems; this discussion will focus on competitive modes.*] 1v1, 2v2, 3v3.
+[^2]: Competitive and casual matchmaking use different weighting systems; this discussion will focus on competitive modes.
 
+The matchmaking system employs a weighted average approach, using methods like the root mean square (RMS), to assess each team’s skill and ensure fair matchups against opponents.[^3]
 
-The matchmaking system employs a weighted average approach, using methods like the root mean square (RMS), to assess each team's skill and ensure fair matchups against opponents.^[[Reddit](https://www.reddit.com/r/RocketLeague/comments/ljyzcy/parties_how_they_affect_matchmaking_mmr/) - *Parties: How they affect matchmaking MMR*]
+[^3]: [Reddit - Parties: How they affect matchmaking MMR](https://www.reddit.com/r/RocketLeague/comments/ljyzcy/parties_how_they_affect_matchmaking_mmr/)
 
-$$
-\text{TeamSkill}=\sqrt[n]{\frac{\mathrm{\text{mmr}}_{1}^{n}+\text{...}+\mathrm{\text{mmr}}_{x}^{n} }{x}}
-$$
-
+$$\text{TeamSkill} = \sqrt[n]{\frac{\text{mmr}_1^n + \dots + \text{mmr}_x^n}{x}}$$
 
 ```{r}
 party_matchmaking <- function(mmr_arr, n) {
-  party_mmr <- round((sum(mmr_arr^n) / length(mmr_arr))^(1/n),0)
+  party_mmr <- round((sum(mmr_arr^n) / length(mmr_arr))^(1/n), 0)
   return(paste0("Team's Skill Rating = ", party_mmr))
 }
 
-player_1_mmr = 600
-player_2_mmr = 700
-n = 15 # this is the value for competitive playlists
+player_1_mmr <- 600
+player_2_mmr <- 700
+n <- 15 # this is the value for competitive playlists
 
 team_skill <- party_matchmaking(c(player_1_mmr, player_2_mmr), n)
-
 team_skill
 ```
 
-When a player's skill reaches a certain threshold, the matchmaking system adjusts by basing the team's skill level entirely on the high skilled player, even if they are partied with lower-skilled teammates. This ensures that the match remains competitive despite skill imbalances within the team.
+When a player’s skill reaches a certain threshold, the matchmaking system adjusts by basing the team’s skill level entirely on the high skilled player, even if they are partied with lower-skilled teammates. This ensures that the match remains competitive despite skill imbalances within the team.
 
-## Simulating Matches
+### Simulating Matches
 
 ```{r}
 #| code-fold: true
