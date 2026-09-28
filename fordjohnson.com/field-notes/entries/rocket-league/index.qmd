@@ -1,9 +1,7 @@
 ---
 title: Bayesian State Estimation in Competitive Matchmaking
-description: |
-  Deconstructing Rocket League's MMR and ranking system.
+description: Deconstructing Rocket League's MMR and ranking system.
 title-block-banner: false
-# image:
 date: '2024-09-21'
 categories: [R, Bayesian Statistics, Game Analytics, State Estimation, R6]
 abstract: Evaluating Skill Rating volatility, uncertainty decay, and Bayesian state updates in Rocket League using R.
@@ -11,9 +9,7 @@ abstract-title: Summary
 toc: true
 html-math-method:
   method: katex
-
 reference-location: margin
-
 execute:
   freeze: true
 ---

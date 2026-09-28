@@ -1,20 +1,17 @@
 ---
 title: Euclidean Distance
-description: |
-  Comparing National energy generation profiles.
+description: Comparing National energy generation profiles.
 title-block-banner: false
-# image:
-date: "2023-11-01"
+date: '2023-11-01'
 categories: [R, Vector Analysis, Distance Metrics, Energy Data]
 abstract: "Comparing monthly electricity generation vectors^[Data from the [TidyTuesday 06/06/2023 dataset](https://github.com/rfordatascience/tidytuesday/tree/master/data/2023/2023-06-06).] across nations to evaluate structural energy-mix alignment relative to Germany."
 abstract-title: Summary
 toc: true
-
 execute:
   freeze: auto
 ---
 
-In observational settings where a formal A/B test wasn't set up, vector distance metrics provide a fast heuristic for pre/post analysis—identifying structurally similar peer entities to evaluate whether macro spikes, market shifts, or regulatory changes observed in a primary market mirrored across baseline controls.
+In observational settings where a formal A/B test wasn't set up, vector distance metrics provide a fast heuristic for pre/post analysis-identifying structurally similar peer entities to evaluate whether macro spikes, market shifts, or regulatory changes observed in a primary market mirrored across baseline controls.
 
 $$d(p, q) = \sqrt{\sum_{i=1}^{n} (p_i - q_i)^2}$$
 

@@ -1,7 +1,6 @@
 ---
-title: Binomial Trend Detection & Anomaly Monitoring
-description: |
-  Week-over-week binomial modeling for anomaly detection.
+title: Binomial Trend Detection
+description: Week-over-week binomial modeling for anomaly detection.
 title-block-banner: false
 date: '2024-10-01'
 categories: [R, Binomial Test, Statistical Inference, Anomaly Detection, Tidyverse]
@@ -14,7 +13,7 @@ execute:
 
 When tracking metrics like conversion rates, pipeline errors, or customer churn, simple averages can be deceiving. A sudden jump in error rates might look alarming, but if it happens on a low-volume day, it could easily be random noise. Conversely, a small drift during high-volume periods might signal a major issue.
 
-Rather than relying on moving averages—which lag behind real shifts and trigger false alarms—we can use **exact binomial testing**. This approach calculates the precise probability of seeing a specific number of "successes" (or failures) out of a given number of trials, letting us flag true anomalies quickly, even with small sample sizes.
+Rather than relying on moving averages-which lag behind real shifts and trigger false alarms-we can use **exact binomial testing**. This approach calculates the precise probability of seeing a specific number of "successes" (or failures) out of a given number of trials, letting us flag true anomalies quickly, even with small sample sizes.
 
 ### How It Works Under the Hood
 

@@ -2,7 +2,6 @@
 title: The Core Pretzel Index (CPI)
 description: A weighted, time-decayed scoring framework for ranking pretzels.
 title-block-banner: false
-# image:
 date: '2025-03-17'
 categories: [Index Design, Weighted Scoring]
 abstract: Constructing a weighted composite quality index with exponential recency decay to evaluate regional snack quality across repeat visits.
@@ -67,7 +66,7 @@ A spot that was incredible months ago shouldn't ride on old glory if recent qual
 
 $$\lambda_i = \exp\left(-\frac{\ln(2)}{T_{1/2}} \times t_i\right)$$
 
-Combining these yields the **Decay-Adjusted Score (DAS)**—the primary metric used for live standings:
+Combining these yields the **Decay-Adjusted Score (DAS)**-the primary metric used for live standings:
 
 $$\text{DAS} = 10 \times \frac{\sum (\lambda_i \times \text{CPI}_i)}{\sum \lambda_i}$$
 
