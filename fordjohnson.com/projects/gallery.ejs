@@ -12,7 +12,7 @@
 <% for (const tile of item.tiles) { %>
   <div class="card border-2 rounded-3 g-col-12 g-col-sm-6 g-col-md-4 mb-2" <%= metadataAttrs(tile) %>>
     <div class="card-header py-1 px-2 border-bottom border-1 bg-light">
-      <small class="card-text inline-block">
+      <small class="card-text inline-block" style="position: relative; z-index: 2;">
         <a href="<%- tile.href %>" class="listing-title"><%= tile.title %></a>
         <% if (tile.code) { %> 
         <a href="<%- tile.code %>" title="View source code" 
@@ -26,7 +26,6 @@
     <a href="<%- tile.href %>">
       <img src="<%- tile.thumbnail %>" alt="<% if (tile.alt) { %><%= tile.alt %><% } else { %><%= tile.title %> example<% if (tile.subtitle) { %>, <%= tile.subtitle %><% } %><% } %>" class="card-img-top"/>
     </a>
-    
   </div>
 <% } %>
 
