@@ -1,21 +1,23 @@
 ---
 title: Euclidean Distance
-description: |
-  Practical applications of distance metrics and point clustering.
+description: Comparing National energy generation profiles.
 title-block-banner: false
-# image:
 date: '2023-11-01'
-categories: [trends, stats]
-
+categories: [R, Vector Analysis, Distance Metrics, Energy Data]
+abstract: "Comparing monthly electricity generation vectors^[Data from the [TidyTuesday 06/06/2023 dataset](https://github.com/rfordatascience/tidytuesday/tree/master/data/2023/2023-06-06).] across nations to evaluate structural energy-mix alignment relative to Germany."
+abstract-title: Summary
+toc: true
 execute:
   freeze: auto
 ---
 
-Understanding the similarity between data points is crucial for effective analysis. **Euclidean distance** measures the separation between two sets of values by summing the squares of the differences between corresponding elements. This straightforward method helps reveal patterns and supports informed decision-making.
+In observational settings where a formal A/B test wasn't set up, vector distance metrics provide a fast heuristic for pre/post analysis-identifying structurally similar peer entities to evaluate whether macro spikes, market shifts, or regulatory changes observed in a primary market mirrored across baseline controls.
 
-### Example
+$$d(p, q) = \sqrt{\sum_{i=1}^{n} (p_i - q_i)^2}$$
 
-In this demo, I applied Euclidean distance to compare electricity generation across countries using the [TidyTuesday 06/06/2023 dataset](https://github.com/rfordatascience/tidytuesday/tree/master/data/2023/2023-06-06). By selecting Germany as the target country, I identified which countries exhibit the most similar and most different trends.
+Where $p_i$ and $q_i$ represent electricity generation (TWh) in month $i$ for Germany and the comparison nation, respectively.
+
+### Vectorized Calculation
 
 ```{r, sum-squared-differences-across-all-years}
 #| code-overflow: wrap
@@ -24,12 +26,12 @@ In this demo, I applied Euclidean distance to compare electricity generation acr
 
 library(tidyverse)
 
-owid_energy <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-06-06/owid-energy.csv')
+owid_energy <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2023/2023-06-06/owid-energy.csv")
 
 countries <- c(
   "CAN", "MEX", "BLZ", "CRI", "SLV", "GTM", "HND",
   "NIC", "PAN", "BHS", "BRB", "CUB", "DOM", "HTI",
-  "JAM", "TTO","ALB", "AND", "ARM", "AUT", "AZE",
+  "JAM", "TTO", "ALB", "AND", "ARM", "AUT", "AZE",
   "BLR", "BEL", "BIH", "BGR", "HRV", "CYP", "CZE",
   "DNK", "EST", "FIN", "FRA", "GEO", "USA", "GRC",
   "HUN", "ISL", "IRL", "ITA", "KAZ", "LVA", "LIE",
@@ -39,54 +41,39 @@ countries <- c(
   "GBR", "VAT"
 )
 
-electricity_generation <- owid_energy %>%
-  select(country, iso_code, year, electricity_generation) %>%
+electricity_generation <- owid_energy |>
+  select(country, iso_code, year, electricity_generation) |>
   filter(year > 2000 & iso_code %in% countries)
 
 target_country <- "DEU" # Germany's 3 letter ISO country code
 
-target_country_generation <- owid_energy %>%
-  filter(year > 2000 & year < 2021 & iso_code == target_country) %>%
-  select(year, electricity_generation) %>%
+target_country_generation <- owid_energy |>
+  filter(year > 2000 & year < 2021 & iso_code == target_country) |>
+  select(year, electricity_generation) |>
   rename(target_generation = electricity_generation)
 
-countries_with_similarity_score <- electricity_generation %>%
-  left_join(target_country_generation, by = "year") %>%
-  group_by(country, iso_code) %>%
-  summarize(euclidean_distance = sqrt(sum((electricity_generation - target_generation)^2, na.rm = TRUE))) %>%
+countries_with_similarity_score <- electricity_generation |>
+  left_join(target_country_generation, by = "year") |>
+  group_by(country, iso_code) |>
+  summarize(euclidean_distance = sqrt(sum((electricity_generation - target_generation)^2, na.rm = TRUE))) |>
   arrange(euclidean_distance)
 ```
 
-### Why Compare Similar Entities?
-
-Comparing similar entities by analyzing a metric across a dimension is a versatile technique with broad real-world applications. It’s a useful way to establish a baseline and explore the impact of changes. Here’s why this method is valuable:
-
-- **Establishing Baselines for Experimental Testing:** Comparing similar entities helps set a clear baseline of normal or expected performance. This baseline is essential when testing new interventions or experimental changes, as it allows for a precise measurement of their impact.
-- **Assessing Market & Policy Impact:** Whether in business, public policy, or other fields, comparing key metrics across similar groups reveals how well certain interventions or strategies perform against a comparable standard.
-- **Tracking Trends:** By analyzing whether variations in a metric are isolated or part of a broader pattern, this approach distinguishes between widespread trends and localized anomalies, supporting more accurate forecasting and planning.
-- **Broad Applicability:** Although this demo focuses on comparing countries, the methodology can be applied across various domains, such as benchmarking, evaluating customer segments, or comparing environmental indicators to identify similarities and differences.
-
-### Germany’s Most and Least Similar Countries
-
-The analysis shows that the five countries most similar to Germany in terms of electricity generation trends include Canada, France, and the UK. On the other hand, the countries that differ the most include Malta, the Bahamas, and the U.S.
-
-```{r, euclidean-distance-head}
-#| code-overflow: wrap
-#| warning: false
+```{r, euclidean-distance}
+#| layout-ncol: 2
 #| echo: false
-head(countries_with_similarity_score)
+#| tbl-cap:
+#|   - "**Top 5 Peer Generation Profiles** (Relative to Germany)"
+#|   - "**Top 5 Divergent Generation Profiles** (Relative to Germany)"
+
+library(knitr)
+
+colnames(countries_with_similarity_score) <- c("Country", "ISO Code", "$d$")
+
+kable(head(countries_with_similarity_score, n = 5), digits = 2, format.args = list(big.mark = ","), escape = FALSE)
+kable(tail(countries_with_similarity_score , n = 5), digits = 2, format.args = list(big.mark = ","), escape = FALSE)
 ```
 
-```{r, euclidean-distance-tail}
-#| code-overflow: wrap
-#| warning: false
-#| echo: false
-tail(countries_with_similarity_score)
-```
-
-### Visualizing the Data
-
-The accompanying chart highlights the electricity generation trends of Germany, Canada, and France using distinct colors, while other countries are represented in gray. This visual representation makes it easier to grasp how closely the trends align, and it serves as a practical tool for monitoring strategic changes.
 
 ```{r, similiar-countries-code}
 #| code-overflow: wrap
@@ -104,19 +91,19 @@ font_add_google(name = "Roboto", family = "Roboto")
 font <- "Roboto"
 
 title <- paste0(
-  "<span>Highlighting Countries Similar to<span style='color:#6929c4;'> Germany</span></span>"
+  "<span>Nations Similar to<span style='color:#6929c4;'> Germany</span></span>"
 )
 
 subtitle <- paste0(
   "<span>Electric Generation - Terawatt hours (2000-2020)</span>"
 )
 
-similar_countries_highlighted_plot <- owid_energy %>%
-  filter(iso_code %in% countries | iso_code == 'DEU') %>%
-  filter(year > 2000 & year < 2021 & iso_code != 'USA') %>%
+similar_countries_highlighted_plot <- owid_energy |>
+  filter(iso_code %in% countries | iso_code == "DEU") |>
+  filter(year > 2000 & year < 2021 & iso_code != "USA") |>
   ggplot(aes(x = year, y = electricity_generation, group = iso_code, color = iso_code)) +
   geom_line() +
-  gghighlight(iso_code %in% c('DEU', 'FRA', 'CAN'), 
+  gghighlight(iso_code %in% c("DEU", "FRA", "CAN"),
               use_direct_label = FALSE) +
   labs(
     title = title,
@@ -125,8 +112,13 @@ similar_countries_highlighted_plot <- owid_energy %>%
     x = "Year"
   ) +
     scale_color_manual(
-    values = c('DEU' = '#6929c4', 'FRA' = '#1192e8', 'CAN' = '#198038', 'Other' = '#D3D3D3'),
-    labels = c('DEU' = 'Germany', 'FRA' = 'France', 'CAN' = 'Canada')
+    values = c(
+      "DEU" = "#6929c4",
+      "FRA" = "#1192e8",
+      "CAN" = "#198038",
+      "Other" = "#D3D3D3"
+    ),
+    labels = c("DEU" = "Germany", "FRA" = "France", "CAN" = "Canada")
   ) +
   scale_y_continuous(breaks = seq(0, 1100, by = 250)) +
   theme_void() +
@@ -135,43 +127,49 @@ similar_countries_highlighted_plot <- owid_energy %>%
     legend.title = element_blank(),
     axis.text = element_text(
       family = font,
-      size = 13
+      size = 8
     ),
     axis.title = element_text(
       family = font,
-      size = 13
+      size = 8
     ),
     axis.title.x = element_text(
-      margin = margin(7,0,0,0,"mm")
+      margin = margin(5, 0, 0, 0, "mm")
     ),
     axis.title.y = element_text(
       angle = 90,
-      margin = margin(0,7,0,0,"mm")
+      margin = margin(0, 5, 0, 0, "mm")
     ),
     panel.grid.major = element_line(colour = "#e0e0e0", linewidth = 0.1),
     legend.text = element_text(
       family = font,
-      size = 15
+      size = 8
     ),
     plot.title = ggtext::element_textbox_simple(
       family = font,
-      size = 20,
-      margin = margin(10,0,0,0)
+      size = 12,
+      margin = margin(10, 0 , 0, 0)
     ),
     plot.subtitle = ggtext::element_textbox_simple(
       family = font,
-      size = 15,
-      margin = margin(10,0,0,0)
+      size = 10,
+      margin = margin(5, 0, 0, 0)
     ),
-    plot.margin = margin(5,5,5,5, "mm")
+    plot.margin = margin(5, 5, 5, 5, "mm")
   )
 ```
 
 ```{r, similiar-countries-plot}
 #| echo: false
 #| fig-dpi: 600
+#| out-width: 70%
 #| lightbox:
 #|   group: plot
 
 similar_countries_highlighted_plot
 ```
+
+### Technical Considerations
+
+* **Volume vs. Shape Sensitivity:** Unscaled L2 norm penalizes total generation magnitude. To evaluate pure energy *mix composition* independent of economy size, normalize features to Z-scores or percentage shares ($\% \text{ total TWh}$).
+* **Alternative Distance Metrics:** Use **Cosine Distance** ($1 - \cos(\theta)$) to isolate directional alignment, or **Dynamic Time Warping (DTW)** for phase-shifted seasonal curves.

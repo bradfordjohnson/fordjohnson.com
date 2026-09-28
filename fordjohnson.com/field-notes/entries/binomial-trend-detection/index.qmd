@@ -1,40 +1,48 @@
 ---
 title: Binomial Trend Detection
-description: |
-  Week-over-week binomial modeling for anomaly detection.
+description: Week-over-week binomial modeling for anomaly detection.
 title-block-banner: false
 date: '2024-10-01'
-categories: [trends, stats]
+categories: [R, Binomial Test, Statistical Inference, Anomaly Detection, Tidyverse]
+abstract: Detecting statistically significant conversion rate shifts and process anomalies using vectorized exact binomial testing in R.
+abstract-title: Summary
+toc: true
 execute:
   freeze: auto
 ---
 
-### Methodology
+When tracking metrics like conversion rates, pipeline errors, or customer churn, simple averages can be deceiving. A sudden jump in error rates might look alarming, but if it happens on a low-volume day, it could easily be random noise. Conversely, a small drift during high-volume periods might signal a major issue.
 
-This approach involves:
+Rather than relying on moving averages-which lag behind real shifts and trigger false alarms-we can use **exact binomial testing**. This approach calculates the precise probability of seeing a specific number of "successes" (or failures) out of a given number of trials, letting us flag true anomalies quickly, even with small sample sizes.
 
-- **Calculating Week-over-Week Deltas**: Measuring daily changes.
-- **Using a 14-Day Rolling Window**: Smoothing out short-term fluctuations.
-- **Counting Positive and Negative Changes**: Tallying the days with consistent directional shifts.
-- **Applying Statistical Analysis**: Using the binomial distribution (for example, requiring 12 out of 14 days to exhibit the same trend) to confirm significant changes.
+### How It Works Under the Hood
 
-### Process Details
+Think of each event as a coin flip where we already know the expected probability of "heads" (our baseline rate, $p_0$). 
 
-|Step|Details|
-|----|----|
-|Calculate WoW Deltas|Determine the day-to-day changes in the metric.|
-|Rolling 14-Day Window|Apply a two-week window to balance sensitivity and stability.|
-|Count Positive/Negative Days|Tally days with consistent positive or negative changes.|
-|Binomial Distribution|Model the data with an assumption of a 50% chance for each day's outcome.|
-|Trend Threshold|Flag a trend if the count meets a predefined threshold (e.g., 12 out of 14 days).|
+Given $k$ occurrences (e.g., conversions or errors) out of $n$ total opportunities, the probability of getting exactly $k$ events under our baseline rate is modeled as:
 
-: {.striped}
+$$P(X = k \mid n, p_0) = \binom{n}{k} p_0^k (1 - p_0)^{n - k}$$
+
+To decide whether an observed rate ($\hat{p} = \frac{k}{n}$) is a real shift or just bad luck, we sum up the probabilities of outcomes that are as extreme or more extreme than what we actually observed. This gives us our $p$-value:
+
+$$p\text{-value} = \sum_{x : P(X = x) \le P(X = k)} \binom{n}{x} p_0^x (1 - p_0)^{n - x}$$
+
+If the resulting $p$-value falls below our threshold (typically 0.05), we know the shift is statistically significant.
+
+### A Quick Example in R
+
+Suppose an application usually has a 50% baseline success rate ($p = 0.5$). In a recent test batch of 14 runs, 12 succeeded. Is this an actual performance improvement, or just a lucky streak?
 
 ```{r, binom-test}
 #| code-overflow: wrap
 binom.test(12, 14, 1/2, alternative = "greater")
 ```
 
+Because the $p$-value ($0.0065$) is well below $0.05$, we can confidently say this jump to 85.7% success is a true shift, not random chance.
+
+### Visualizing the Decision Boundary
+
+We can plot the full binomial probability distribution to visually highlight where our observation falls relative to expected chance.
 
 ```{r, binom-code}
 #| warning: false
@@ -107,4 +115,8 @@ binom_visual <- ggplot(data, aes(x = x, y = probability, fill = color)) +
 binom_visual
 ```
 
-This binomial approach improves upon rolling averages by offering better responsiveness to recent trends and reducing sensitivity to day-of-week variations, leading to more reliable trend detection.
+### Key Practical Considerations
+
+* **Handling Small Sample Sizes:** Standard $z$-tests assume a large sample size and break down when dealing with small numbers of trials or rare events. Exact binomial tests calculate true probabilities directly, keeping false positive rates low even on low-volume days.
+* **Managing Multiple Alerts:** If you monitor dozens of metrics or pipelines simultaneously, running frequent tests increases the chance of false alarms. Applying adjustments like Benjamini-Hochberg (`p.adjust(p_value, method = "BH")`) helps control the False Discovery Rate across automated alerts.
+* **Safer Early Stopping in Experiments:** In A/B testing, stopping an experiment early based on raw averages can lead to false conclusions. Exact binomial confidence bounds give you a mathematically grounded rule for when a test has actually reached a conclusive result.
