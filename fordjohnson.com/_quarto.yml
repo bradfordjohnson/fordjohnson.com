@@ -53,3 +53,9 @@ format:
     toc: false
     smooth-scroll: true
     anchor-sections: false
+    include-in-header:
+      - text: |
+          <script>
+          window.dataLayer = window.dataLayer || [];
+          </script>
+      - file: assets/analytics.html

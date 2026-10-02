@@ -1,0 +1,54 @@
+<!-- assets/analytics.html -->
+<script>
+(function () {
+  document.addEventListener('click', function (event) {
+    // 1. Target clickable elements
+    var target = event.target.closest('a, button, [role="button"], [data-track-click]');
+    if (!target || target.getAttribute('data-track-click') === 'false') return;
+
+    // 2. Extract text
+    var img = target.querySelector('img');
+    var childAria = target.querySelector('[aria-label]');
+    var rawText =
+      target.getAttribute('data-text') ||
+      target.getAttribute('aria-label') ||
+      (childAria ? childAria.getAttribute('aria-label') : '') ||
+      target.innerText ||
+      target.textContent ||
+      target.getAttribute('alt') ||
+      (img ? img.getAttribute('alt') : '') ||
+      '';
+
+    var text = rawText.trim() ? rawText.trim() : null;
+
+    // 3. Extract element type (component)
+    var isLink = target.tagName === 'A' || target.hasAttribute('href');
+    var isButton = target.tagName === 'BUTTON' || target.getAttribute('role') === 'button';
+    var component =
+      target.getAttribute('data-component') ||
+      target.getAttribute('role') ||
+      (isLink ? 'link' : isButton ? 'button' : target.tagName.toLowerCase());
+
+    // 4. Extract destination
+    var destination =
+      target.getAttribute('data-destination') ||
+      target.getAttribute('href') ||
+      null;
+
+    // 5. Extract structural position (HTML5 landmarks only)
+    var region = target.closest('header, nav, footer, aside');
+    var position = region ? region.tagName.toLowerCase() : 'main';
+
+    // 6. Push to dataLayer
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: 'interaction',
+      text: text,
+      component: component,
+      destination: destination,
+      position: position,
+      is_from_analytics_service: true
+    });
+  });
+})();
+</script>
