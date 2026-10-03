@@ -7,7 +7,8 @@ project:
 
 website:
   title: "Ford Johnson"
-  # description:
+  description: |
+    Data analyst bridging the gap between numbers and narrative. My expertise lies in marketing analytics, where I uncover the reasons behind clicks and transform user journeys into clear, data-driven opportunities.
   site-url: "https://fordjohnson.com"
   llms-txt: true
   search: false
@@ -18,6 +19,7 @@ website:
   cookie-consent:
     type: implied
     style: simple
+    prefs-text: "Cookies"
 
   google-analytics:
     tracking-id: "GTM-PF2MWQN4"
@@ -26,24 +28,33 @@ website:
     background: secondary
     pinned: true
     logo: "assets/images/logo.png"
+    logo-alt: "Logo Nav Icon"
+    logo-href: index.qmd
     left:
       - href: index.qmd
         text: About
+        aria-label: "About Nav Link"
       - href: projects/index.qmd
         text: Projects
+        aria-label: "Projects Nav Link"
       - href: field-notes/index.qmd
         text: Field Notes
+        aria-label: "Field Notes Nav Link"
     right:
       - icon: github
+        aria-label: "Github Icon"
         href: "https://github.com/bradfordjohnson"
       - icon: linkedin
+        aria-label: "LinkedIn Icon"
         href: "https://linkedin.com/in/bradford-ford-johnson"
   
   page-footer:
     center:
       - icon: github
+        aria-label: "Github Icon"
         href: "https://github.com/bradfordjohnson"
       - icon: linkedin
+        aria-label: "LinkedIn Icon"
         href: "https://linkedin.com/in/bradford-ford-johnson"
 
 format:
