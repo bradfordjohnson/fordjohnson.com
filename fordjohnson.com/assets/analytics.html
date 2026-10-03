@@ -1,5 +1,5 @@
 <!-- assets/analytics.html -->
-<script>
+<script type="text/plain" cookie-consent="tracking">
 (function () {
   document.addEventListener('click', function (event) {
     // 1. Target clickable elements
@@ -9,10 +9,12 @@
     // 2. Extract text
     var img = target.querySelector('img');
     var childAria = target.querySelector('[aria-label]');
+    var childAlt = target.querySelector('[alt]');
     var rawText =
       target.getAttribute('data-text') ||
       target.getAttribute('aria-label') ||
       (childAria ? childAria.getAttribute('aria-label') : '') ||
+      (childAlt ? childAlt.getAttribute('alt') : '') ||
       target.innerText ||
       target.textContent ||
       target.getAttribute('alt') ||
