@@ -6,7 +6,7 @@ listing:
   id: field-notes
   contents: entries
   sort: "date desc"
-  categories: true
+  categories: false
   filter-ui: false
   sort-ui: false
   type: table

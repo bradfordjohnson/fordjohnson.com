@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="100%" height="100%">
+  <!-- Background -->
+  <rect width="600" height="400" fill="#f8fafc" rx="12" />
+  <rect x="1" y="1" width="598" height="398" rx="11" fill="none" stroke="#cbd5e1" stroke-width="1" />
+
+  <!-- Code Window Frame -->
+  <rect x="120" y="100" width="360" height="150" rx="8" fill="#0f172a" />
+  <!-- Window Dots -->
+  <circle cx="140" cy="116" r="4" fill="#ef4444" />
+  <circle cx="155" cy="116" r="4" fill="#f59e0b" />
+  <circle cx="170" cy="116" r="4" fill="#22c55e" />
+
+  <!-- Code / Text Content -->
+  <text x="140" y="150" font-family="monospace" font-size="13" fill="#38bdf8">$ dbt run --models ga4</text>
+  <text x="140" y="175" font-family="monospace" font-size="13" fill="#cbd5e1">> compiling models...</text>
+  <text x="140" y="200" font-family="monospace" font-size="13" fill="#4ade80">✓ duckdb warehouse updated</text>
+
+  <!-- Coming Soon Pill -->
+  <rect x="235" y="275" width="130" height="28" rx="14" fill="#e2e8f0" />
+  <text x="300" y="294" font-family="-apple-system, BlinkMacSystemFont, &#39;Segoe UI&#39;, Roboto, sans-serif" font-size="12" font-weight="600" fill="#64748b" text-anchor="middle" letter-spacing="1">
+    COMING SOON
+  </text>
+</svg>

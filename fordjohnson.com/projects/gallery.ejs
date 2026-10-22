@@ -1,35 +1,89 @@
-
 ```{=html}
-
 <% for (const item of items) { %>
 
-<h2><%- item.category %></h2>
+<section class="projects-listing">
 
-<p><%- item.description %></p>
+  <header class="projects-heading">
+    <h2><%- item.category %></h2>
+    <p><%- item.description %></p>
+  </header>
 
-<div class="list grid" style="column-gap: 10px;">
+  <% for (let index = 0; index < item.tiles.length; index++) {
+    const tile = item.tiles[index];
+  %>
 
-<% for (const tile of item.tiles) { %>
-  <div class="card border-2 rounded-3 g-col-12 g-col-sm-6 g-col-md-4 mb-2" <%= metadataAttrs(tile) %>>
-    <div class="card-header py-1 px-2 border-bottom border-1 bg-light">
-      <small class="card-text inline-block" style="position: relative; z-index: 2;">
-        <a href="<%- tile.href %>" class="listing-title"><%= tile.title %></a>
-        <% if (tile.code) { %> 
-        <a href="<%- tile.code %>" title="View source code" 
-          class="source-code card-text float-end inline-block">
-          <i class="bi-code-slash"></i>
+  <article class="project-feature" <%= metadataAttrs(tile) %>>
+
+    <div class="project-copy <%= index % 2 ? 'project-reverse' : '' %>">
+
+      <div class="project-details">
+
+        <span class="project-number">
+          <%= String(index + 1).padStart(2, '0') %>
+        </span>
+
+        <h3 class="project-title">
+          <%= tile.title %>
+        </h3>
+
+        <% if (tile.subtitle) { %>
+        <p class="project-subtitle">
+          <%= tile.subtitle %>
+        </p>
+        <% } %>
+
+
+        <div class="project-actions">
+
+        <% if (tile.href) { %>
+        <a href="<%- tile.href %>" class="project-link">
+            <%= tile.cta || 'Explore project' %>
+            <i class="bi bi-arrow-up-right" aria-hidden="true"></i>
+        </a>
+        <% } else { %>
+        <span class="project-status">
+            <%= tile.cta || 'In development' %>
+        </span>
+        <% } %>
+
+        <% if (tile.code && tile.code !== tile.href) { %>
+        <a href="<%- tile.code %>" class="project-source">
+            <i class="bi bi-code-slash" aria-hidden="true"></i>
+            View source
         </a>
         <% } %>
-        <span class="text-muted listing-subtitle"><%= tile.subtitle %></span>
-      </small>
-    </div>
-    <a href="<%- tile.href %>">
-      <img src="<%- tile.thumbnail %>" alt="<% if (tile.alt) { %><%= tile.alt %><% } else { %><%= tile.title %> example<% if (tile.subtitle) { %>, <%= tile.subtitle %><% } %><% } %>" class="card-img-top"/>
-    </a>
-  </div>
-<% } %>
 
-</div>
+        </div>
+
+
+      </div>
+
+      <div class="project-visual">
+
+        <% if (tile.href) { %>
+        <a href="<%- tile.href %>"
+           tabindex="-1"
+           aria-hidden="true">
+        <% } %>
+
+          <img
+            src="<%- tile.thumbnail %>"
+            alt="<%= tile.alt || tile.title + ' project preview' %>"
+            loading="lazy" />
+
+        <% if (tile.href) { %>
+        </a>
+        <% } %>
+
+      </div>
+
+    </div>
+
+  </article>
+
+  <% } %>
+
+</section>
 
 <% } %>
 

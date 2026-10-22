@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="100%" height="100%">
+  <!-- Background -->
+  <rect width="600" height="400" fill="#f8fafc" rx="12"/>
+  
+  <!-- Subtle Grid Pattern -->
+  <path d="M0 100 H600 M0 200 H600 M0 300 H600 M150 0 V400 M300 0 V400 M450 0 V400" 
+        stroke="#e2e8f0" stroke-width="1"/>
+  
+  <!-- Outer Subtle Border -->
+  <rect x="1" y="1" width="598" height="398" rx="11" fill="none" stroke="#cbd5e1" stroke-width="1"/>
+
+  <!-- dbt Snapshot Node / Badge -->
+  <rect x="200" y="140" width="200" height="52" rx="10" fill="#fff5f2" stroke="#ff6b4a" stroke-width="2"/>
+  <text x="300" y="172" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="600" fill="#ff6b4a" text-anchor="middle">
+    State Engine
+  </text>
+  
+  <!-- Coming Soon Pill -->
+  <rect x="235" y="215" width="130" height="28" rx="14" fill="#e2e8f0"/>
+  <text x="300" y="234" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="600" fill="#64748b" text-anchor="middle" letter-spacing="1">
+    COMING SOON
+  </text>
+</svg>

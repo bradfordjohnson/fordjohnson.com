@@ -1,22 +1,32 @@
 - category: Projects
-  description: |
-    A curated selection of my visualizations, projects, and analytical solutions.
+  description: A curated selection of my visualizations, projects, and analytical solutions.
   tiles:
+    - title: Web Event Analytics
+      subtitle: Transforming portfolio interaction data with GA4, GTM, DuckDB, and dbt.
+      thumbnail: ../assets/images/_projects/web-events-coming-soon.svg
+
+    - title: State Engine
+      subtitle: Reconstructing historical Minecraft stats from daily snapshots and measuring how they change over time.
+      thumbnail: ../assets/images/_projects/state-engine-coming-soon.svg
+
     - title: TidyTuesday
-      subtitle: Weekly data visualizations
+      subtitle: Exploring real world datasets through reproducible data visualization
       href: tidytuesday/index.qmd
       code: https://github.com/bradfordjohnson/tidytuesday
-      thumbnail: https://cdn.jsdelivr.net/gh/bradfordjohnson/tidytuesday@main/tidytuesday/2025/2025-01-14/image.png
-      # alt: An HTML article page showing an interactive time-series chart with a table-of-contents sidebar
+      thumbnail: https://cdn.jsdelivr.net/gh/bradfordjohnson/tidytuesday@main/tidytuesday/2023/2023-06-06/image.png
+      alt: Cartogram of European countries showing historical electricity demand versus generation (1990–2020) with deficit and surplus shading.
+      cta: View visualizations
   
     - title: golfr
-      subtitle: Simulating Topgolf games each day using R
+      subtitle: Simulating daily Topgolf games with an automated R workflow
       href: https://github.com/bradfordjohnson/golfr
       code: https://github.com/bradfordjohnson/golfr
       thumbnail: https://cdn.jsdelivr.net/gh/bradfordjohnson/golfr@master/topgolf-sim.png
+      cta: Explore on GitHub
   
     - title: ggraincloud
-      subtitle: Easy raincloud plots with R
+      subtitle: A simple ggplot2 extension for creating raincloud plots
       href: https://github.com/bradfordjohnson/ggraincloud
       code: https://github.com/bradfordjohnson/ggraincloud
       thumbnail: https://cdn.jsdelivr.net/gh/bradfordjohnson/ggraincloud@master/man/figures/README-theme_void-1.png
+      cta: Explore on GitHub
