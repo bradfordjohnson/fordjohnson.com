@@ -64,8 +64,9 @@ format:
       dark: _assets/_styles/darkly.scss
     toc: false
     anchor-sections: false
-    # include-in-header:
-    #   - text: |
-    #       <script>
-    #       window.dataLayer = window.dataLayer || [];
-    #       </script>
+    include-in-header:
+      - text: |
+          <script>
+          window.dataLayer = window.dataLayer || [];
+          </script>
+      - file: _assets/_analytics.html

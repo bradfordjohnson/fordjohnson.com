@@ -48,17 +48,17 @@ jobs:
             gghighlight
             ggtext
       
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-          cache: 'npm'
+      # - name: Set up Node.js
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: '24'
+      #     cache: 'npm'
 
-      - name: Install dependencies
-        run: npm ci
+      # - name: Install dependencies
+      #   run: npm ci
 
-      - name: Compile TypeScript
-        run: npm run build
+      # - name: Compile TypeScript
+      #   run: npm run build
 
       - name: Render Quarto Project
         run: quarto render fordjohnson.com --profile prod
