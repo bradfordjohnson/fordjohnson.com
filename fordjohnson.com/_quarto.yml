@@ -63,6 +63,7 @@ website:
 
 format:
   html:
+    strip-comments: true
     respect-user-color-scheme: true
     theme:
       light: _assets/_styles/flatly.scss
