@@ -41,7 +41,7 @@ My focus spans the data lifecycle-from capturing and organizing raw telemetry to
 :::{#projects}
 :::
 
-::: {.digital-garden .content-hidden unless-meta="show_hidden_content"}
+::: {.digital-garden .content-hidden unless-meta="show_draft_content"}
 :::{.section-heading}
 #### [Digital garden]{style="font-weight: 600;"}
 :::

@@ -1,50 +1,46 @@
 <script>
 (function () {
   document.addEventListener('click', function (event) {
-    // 1. Target clickable elements
-    var target = event.target.closest('a, button, [role="button"], [data-track-click]');
+    var target = event.target.closest(
+      'a, button, [role="button"], [data-track-click]'
+    );
+
     if (!target || target.getAttribute('data-track-click') === 'false') return;
 
-    // 2. Extract text
-    var img = target.querySelector('img');
     var childAria = target.querySelector('[aria-label]');
     var childAlt = target.querySelector('[alt]');
-    var rawText =
+
+    var text = (
       target.getAttribute('data-text') ||
       target.getAttribute('aria-label') ||
-      (childAria ? childAria.getAttribute('aria-label') : '') ||
-      (childAlt ? childAlt.getAttribute('alt') : '') ||
+      (childAria && childAria.getAttribute('aria-label')) ||
+      (childAlt && childAlt.getAttribute('alt')) ||
       target.innerText ||
       target.textContent ||
       target.getAttribute('alt') ||
-      (img ? img.getAttribute('alt') : '') ||
-      '';
+      ''
+    ).trim();
 
-    var text = rawText.trim() ? rawText.trim() : null;
-
-    // 3. Extract element type (component)
     var isLink = target.tagName === 'A' || target.hasAttribute('href');
     var isButton = target.tagName === 'BUTTON' || target.getAttribute('role') === 'button';
-    var component =
-      target.getAttribute('data-component') ||
-      target.getAttribute('role') ||
-      (isLink ? 'link' : isButton ? 'button' : target.tagName.toLowerCase());
 
-    // 4. Extract destination
-    var destination =
-      target.getAttribute('data-destination') ||
-      target.getAttribute('href') ||
-      null;
+    var interaction = {
+      module: target.getAttribute('data-module') || undefined,
+      component: target.getAttribute('data-component') ||
+        (isLink ? 'link' : isButton ? 'button' : target.tagName.toLowerCase()),
+      destination: target.getAttribute('data-destination') ||
+        target.getAttribute('href') || undefined,
+      text: text || undefined,
+      is_from_analytics_service: true
+    };
 
-    // 5. Push to dataLayer
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
       event: 'interaction',
-      text: text,
-      component: component,
-      destination: destination,
-      is_from_analytics_service: true
+      eventModel: interaction
     });
+
+    console.info('[Analytics] interaction', interaction);
   });
 })();
 </script>

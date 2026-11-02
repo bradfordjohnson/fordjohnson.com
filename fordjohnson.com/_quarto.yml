@@ -6,9 +6,14 @@ profile:
 project:
   type: website
   output-dir: _site
+  
+  # TS build step testing - no longer doing this but retaining for future reference
+  # maybe I could put this in a quarto profile?
+  #
   # resources:
   #   - _assets/_js/**
   # pre-render: npm run build
+  
   preview:
     port: 4000
     timeout: 1200
