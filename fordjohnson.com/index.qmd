@@ -4,11 +4,11 @@ description-meta: "Analytics Engineer"
 page-layout: article
 listing:
   id: projects
-  contents: projects/featured.yml
+  contents: projects/projects.yml
   template: projects/projects.ejs.md
   max-items: 3
-  # include:
-  #   is_completed: true
+  include:
+    is_featured: true
 ---
 <!-- inspo: https://www.hamiltonulmer.com/ -->
 

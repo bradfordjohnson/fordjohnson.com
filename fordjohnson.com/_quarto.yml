@@ -29,16 +29,16 @@ website:
   
     # https://quarto.org/docs/websites/website-navigation.html#side-navigation
   sidebar:
-    # - id: garden
-    #   background: light
-    #   style: docked
-    #   collapse-level: 2
-    #   contents:
-    #     - section: "Digital Garden"
-    #       href: garden/index.qmd
-    #       contents:
-    #         - section: "Instrumentation"
-    #           href: garden/instrumentation/index.qmd
+    - id: garden
+      background: light
+      style: docked
+      collapse-level: 2
+      contents:
+        - section: "Digital Garden"
+          href: garden/index.qmd
+          contents:
+            - section: "Instrumentation"
+              href: garden/instrumentation/index.qmd
     #           contents:
     #             - text: "Data Layer"
     #               href: garden/instrumentation/index.qmd#data-layer
