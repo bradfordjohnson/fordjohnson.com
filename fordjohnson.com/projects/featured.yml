@@ -1,0 +1,14 @@
+- title: Minecraft Analytics Pipeline
+  href: projects/minecraft/index.html # does not yet exist
+  description: >
+    A local analytics pipeline for reconstructing daily snapshots, filling historical gaps, and tracking player statistics over time.
+
+- title: Web Telemetry & Analytics Engine
+  href: projects/web-telemetry-engine/index.qmd
+  description: >
+    Collecting, cleaning, modeling, and visualizing the data behind this site... including the interactions that bring you here.
+
+- title: Core Pretzel Index (CPI)
+  href: projects/core-pretzel-index/index.qmd
+  description: >
+    A weighted scoring framework for evaluating regional pretzel quality across texture, salt distribution, and price-to-value.

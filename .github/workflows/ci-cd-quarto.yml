@@ -47,11 +47,21 @@ jobs:
             htmltools
             gghighlight
             ggtext
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Compile TypeScript
+        run: npm run build
 
       - name: Render Quarto Project
-        uses: quarto-dev/quarto-actions/render@v2
-        with:
-          path: fordjohnson.com
+        run: quarto render fordjohnson.com --profile prod
 
       - name: Setup Pages
         uses: actions/configure-pages@v4

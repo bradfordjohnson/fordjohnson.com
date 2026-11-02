@@ -1,72 +1,71 @@
+profile:
+  default: prod
+  # for dev profile run:
+  # quarto preview --profile dev
+
 project:
   type: website
   output-dir: _site
+  # resources:
+  #   - _assets/_js/**
+  # pre-render: npm run build
   preview:
     port: 4000
     timeout: 1200
 
 website:
   title: "Ford Johnson"
-  description: |
-    Data analyst bridging the gap between numbers and narrative. My expertise lies in marketing analytics, where I uncover the reasons behind clicks and transform user journeys into clear, data-driven opportunities.
   site-url: "https://fordjohnson.com"
   llms-txt: true
   search: false
-
-  favicon: "assets/images/favicon.png"
-  image: "assets/images/logo.png"
-
-  cookie-consent:
-    type: implied
-    style: simple
-    prefs-text: "Cookies"
-
+  favicon: "_assets/_images/favicon.png"
   google-analytics:
     tracking-id: "GTM-PF2MWQN4"
-
-  navbar:
-    background: secondary
-    pinned: true
-    logo: "assets/images/logo.png"
-    logo-alt: "Logo Nav Icon"
-    logo-href: index.qmd
-    left:
-      - href: index.qmd
-        text: About
-        aria-label: "About Nav Link"
-      - href: projects/index.qmd
-        text: Projects
-        aria-label: "Projects Nav Link"
-      - href: field-notes/index.qmd
-        text: Field Notes
-        aria-label: "Field Notes Nav Link"
-    right:
-      - icon: github
-        aria-label: "Github Icon"
-        href: "https://github.com/bradfordjohnson"
-      - icon: linkedin
-        aria-label: "LinkedIn Icon"
-        href: "https://linkedin.com/in/bradford-ford-johnson"
   
-  page-footer:
-    center:
-      - icon: github
-        aria-label: "Github Icon"
-        href: "https://github.com/bradfordjohnson"
-      - icon: linkedin
-        aria-label: "LinkedIn Icon"
-        href: "https://linkedin.com/in/bradford-ford-johnson"
+    # https://quarto.org/docs/websites/website-navigation.html#side-navigation
+  sidebar:
+    # - id: garden
+    #   background: light
+    #   style: docked
+    #   collapse-level: 2
+    #   contents:
+    #     - section: "Digital Garden"
+    #       href: garden/index.qmd
+    #       contents:
+    #         - section: "Instrumentation"
+    #           href: garden/instrumentation/index.qmd
+    #           contents:
+    #             - text: "Data Layer"
+    #               href: garden/instrumentation/index.qmd#data-layer
+    #             - text: "Google Tag Manager"
+    #               href: garden/instrumentation/index.qmd#gtm
+    #             - garden/instrumentation/quarto-ts.qmd
+    #     - text: "---"
+    #     - garden/shed.qmd
+    - id: projects
+      background: light
+      style: docked
+      collapse-level: 2
+      contents:
+        - section: "Projects"
+          href: index.qmd#selected-work
+          contents:
+            - projects/tidytuesday/index.qmd
+            - projects/core-pretzel-index/index.qmd
+            - projects/web-telemetry-engine/index.qmd
+            # - text: "---"
+            # - contents: projects/archive
 
 format:
   html:
-    theme: [cosmo, theme.scss]
-    page-layout: full
+    respect-user-color-scheme: true
+    theme:
+      light: _assets/_styles/flatly.scss
+      dark: _assets/_styles/darkly.scss
     toc: false
-    smooth-scroll: true
     anchor-sections: false
-    include-in-header:
-      - text: |
-          <script>
-          window.dataLayer = window.dataLayer || [];
-          </script>
-      - file: assets/analytics.html
+    # include-in-header:
+    #   - text: |
+    #       <script>
+    #       window.dataLayer = window.dataLayer || [];
+    #       </script>

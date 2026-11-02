@@ -5,3 +5,6 @@
 .DS_Store
 /.quarto/
 PUNCHLIST.md
+node_modules/
+*/_assets/_js/
+*.tsbuildinfo
