@@ -1,50 +1,133 @@
 ---
-title: "Ford Johnson"
-subtitle: "Data Analyst & Analytics Engineer"
-about:
-  template: trestles
-  image: assets/images/mountians.jpg
-  # links:
-  #   - text: View Projects
-  #     href: projects/index.qmd
-    # - icon: github
-    #   text: Github
-    #   href: https://github.com/bradfordjohnson
+pagetitle: "Ford Johnson"
+description-meta: "Analytics Engineer"
+page-layout: article
+listing:
+  id: projects
+  contents: projects/projects.yml
+  template: projects/projects.ejs.md
+  max-items: 3
+  include:
+    is_featured: true
 ---
+<!-- inspo: https://www.hamiltonulmer.com/ -->
 
-I build scalable data pipelines, design analytics frameworks, and turn complex datasets into clear visual stories. My focus is on delivering reliable, end-to-end solutions from ingest to decision.
+### [{{< meta pagetitle >}}]{style="font-size: 1.7rem;"}
 
-::: {.hero-text}
-::: {.grid .gap-3 .pb-3 .pt-4}
-::: {.g-col-12 .g-col-sm-4}
-[View Projects](/projects/index.qmd){.btn-action-primary .btn-action .btn .btn-lg .w-100 role="button"}
+::: {.description}
+#### [{{< meta description-meta >}}]{.text-body-secondary}
 :::
-::: {.g-col-12 .g-col-sm-4 .mb-2}
-<!-- [Get in Touch](/docs/guide/){#btn-guide .btn-action .btn-secondary .btn .btn-lg .w-100 role="button"} -->
-::: 
-::: 
+
+::: {.icons}
+[{{< fa brands github size=xl >}}](https://github.com/bradfordjohnson){.hero-icons .text-body-secondary}
+[{{< fa brands linkedin size=xl >}}](https://www.linkedin.com/in/bradford-ford-johnson/){.hero-icons .text-body-secondary}
+:::
+
+::: {.intro}
+I work across data and analytics, building the systems, measurement frameworks, and tools that help make complex data easier to understand and use.
+
+My focus spans the data lifecycle-from capturing and organizing raw telemetry to developing statistical models, exploring trends, and communicating results. I value simple, well-built solutions to complex problems and enjoy finding practical ways to make data more useful.
+:::
+
+<!-- ::: {.stack} -->
+<!-- - Languages: SQL · Python · R · JavaScript -->
+<!-- - Tools: Postgres · BigQuery · DuckDB · dbt · Looker · Tableau · GTM · GA4 · Sheets -->
+<!-- ::: -->
+
+:::{.section-heading}
+#### [Selected work]{#selected-work style="font-weight: 600;"}
+:::
+
+:::{#projects}
+:::
+
+::: {.digital-garden .content-hidden unless-meta="show_draft_content"}
+:::{.section-heading}
+#### [Digital garden]{style="font-weight: 600;"}
+:::
+
+An evolving collection of technical explorations, observations, and working ideas.
+[Explore the garden](garden/index.qmd).
 :::
 
 ```{=html}
 <style>
-.quarto-title {
-    text-align: left;
+.description h4{
+  margin-top: 0.5rem;
+}
+.icons {
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+}
+.hero-icons {
+  margin-right: 1.2rem;
 }
 
-.btn-action-primary {
-  color: white;
-  background-color: #447099;
+.hero-icons:hover {
+  color: var(--bs-link-color) !important;
+  transform: scale(1.15);
 }
 
-.btn-action-primary:hover {
-  background-color: #305775;
-  color: white;
+.section-heading {
+  margin-top: 2.8rem;
 }
 
-.btn-action {
-  min-width: 165px;
-  border-radius: 30px;
-  border: none;
+.intro {
+  line-height: 1.75;
+}
+
+.stack {
+  font-size: smaller;
+  line-height: 1.8;
+}
+
+.project-row {
+  display: block;
+  padding: 1.5rem 0;
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid var(--bs-border-color);
+}
+
+.project-row:first-child {
+  padding-top: 1rem;
+}
+
+.project-row h5 {
+  margin: 0 0 0.35rem;
+}
+
+.project-row h5 span {
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.project-row:hover h5 {
+  color: var(--bs-link-color);
+}
+
+.project-row:hover h5 span {
+  opacity: 1;
+}
+
+.project-row small {
+  color: var(--bs-secondary-color);
+}
+
+.project-row p {
+  margin: 0.6rem 0 0;
+  font-size: .8rem;
+  color: var(--bs-secondary-color);
+}
+
+.project-row:focus-visible {
+  outline: 2px solid var(--bs-primary);
+  outline-offset: 4px;
+}
+
+.digital-garden p {
+  font-size: .9rem;
+  color: var(--bs-secondary-color);
 }
 </style>
 ```

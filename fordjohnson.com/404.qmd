@@ -1,40 +1,7 @@
 ---
-title: "404 - Page Not Found"
-
-format:
-  html:
-    code-copy: false
+title: Page Not Found
 ---
 
-```json
-{
-  "error": 404,
-  "message": "The requested route does not exist."
-}
-```
+The page you requested cannot be found (perhaps it was moved or renamed).
 
-[Back to home](index.qmd){.btn-action-primary .btn-action .btn role="button"}
-
-```{=html}
-<style>
-.quarto-title {
-    text-align: left;
-}
-
-.btn-action-primary {
-  color: white;
-  background-color: #447099;
-}
-
-.btn-action-primary:hover {
-  background-color: #305775;
-  color: white;
-}
-
-.btn-action {
-  min-width: 165px;
-  border-radius: 30px;
-  border: none;
-}
-</style>
-```
+[Home page](index.qmd)

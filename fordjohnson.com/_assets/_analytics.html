@@ -1,0 +1,46 @@
+<script>
+(function () {
+  document.addEventListener('click', function (event) {
+    var target = event.target.closest(
+      'a, button, [role="button"], [data-track-click]'
+    );
+
+    if (!target || target.getAttribute('data-track-click') === 'false') return;
+
+    var childAria = target.querySelector('[aria-label]');
+    var childAlt = target.querySelector('[alt]');
+
+    var text = (
+      target.getAttribute('data-text') ||
+      target.getAttribute('aria-label') ||
+      (childAria && childAria.getAttribute('aria-label')) ||
+      (childAlt && childAlt.getAttribute('alt')) ||
+      target.innerText ||
+      target.textContent ||
+      target.getAttribute('alt') ||
+      ''
+    ).trim();
+
+    var isLink = target.tagName === 'A' || target.hasAttribute('href');
+    var isButton = target.tagName === 'BUTTON' || target.getAttribute('role') === 'button';
+
+    var interaction = {
+      module: target.getAttribute('data-module') || undefined,
+      component: target.getAttribute('data-component') ||
+        (isLink ? 'link' : isButton ? 'button' : target.tagName.toLowerCase()),
+      destination: target.getAttribute('data-destination') ||
+        target.getAttribute('href') || undefined,
+      text: text || undefined,
+      is_from_analytics_service: true
+    };
+
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: 'interaction',
+      eventModel: interaction
+    });
+
+    // console.info('[Analytics] interaction', interaction);
+  });
+})();
+</script>

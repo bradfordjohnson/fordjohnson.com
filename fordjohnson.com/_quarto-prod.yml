@@ -1,0 +1,7 @@
+show_draft_content: false
+
+# explicit render targets for prod profile
+project:
+  render:
+    - index.qmd
+    - projects/core-pretzel-index/index.qmd
